@@ -5,6 +5,7 @@ from .models import Article, Comment
 from IPython import embed
 # from django.db.models import Q
 from django.db.models import Count
+from django.contrib.auth import get_user_model
 
 # Create your views here.
 def index(request):
@@ -58,9 +59,10 @@ def detail(request, id):
     }
     return render(request, 'articles/detail.html', context)
 
-def mypage(request):
-    articles = Article.objects.filter(user=request.user)
-    comments = Comment.objects.filter(user=request.user)
+def mypage(request, id):
+    user = get_object_or_404(get_user_model, id=id)
+    articles = Article.objects.filter(user=user)
+    comments = Comment.objects.filter(user=user)
     context = {
         'articles': articles,
         'comments': comments

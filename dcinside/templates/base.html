@@ -47,7 +47,7 @@
                 {{user.username}} 님
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item " href="{% url 'articles:mypage' %}">마이페이지</a>
+                <a class="dropdown-item " href="{% url 'articles:mypage' user.id %}">마이페이지</a>
                 <a class="dropdown-item" href="{% url 'accounts:update' %}">정보수정</a>
                 <a class="dropdown-item" href="{% url 'accounts:logout' %}">로그아웃</a>
               </div>
