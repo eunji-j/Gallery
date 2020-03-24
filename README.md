@@ -58,21 +58,32 @@ views.py
 
 ```python
 def index(request):
-    # 요청에 따라 추천수, 조회수, 작성시간 순으로 내림차순 정렬
-    like = request.GET.get('like')
-    view = request.GET.get('view')
-    time = request.GET.get('time')
-    if like:
+    like = False
+    view = False
+    time = False
+    if request.GET.get('likedesc'):
         articles = Article.objects.annotate(like_count=Count('like_users')).order_by('-like_count')
-    elif view:
+    elif request.GET.get('likeasc'):
+        like = True
+        articles = Article.objects.annotate(like_count=Count('like_users')).order_by('like_count')
+    elif request.GET.get('viewdesc'):
         articles = Article.objects.all().order_by('-views')
-    elif time:
+    elif request.GET.get('viewasc'):
+        view = True
+        articles = Article.objects.all().order_by('views')
+    elif request.GET.get('timedesc'):
         articles = Article.objects.all().order_by('-created_at')
+    elif request.GET.get('timeasc'):
+        time = True
+        articles = Article.objects.all().order_by('created_at')
     else:
         articles = Article.objects.all()
 
     context = {
-        'articles': articles
+        'articles': articles,
+        'like': like,
+        'view': view,
+        'time': time
     }
     return render(request, 'articles/index.html', context)
 ```
@@ -88,19 +99,31 @@ templates > index.html
       <th scope="col" class="text-center"><span class="btn">제목</span></th>
       <th scope="col" class="text-center"><span class="btn">작성자</span></th>
       <th>
-        <!-- 해당하는 name을 각각 GET방식으로 보내기 -->  
+        <!-- 해당하는 name을 각각 GET방식으로 보내기 -->
         <form action="{% url 'articles:index' %}">
-          <input class="btn" type="submit" name='time' value="▼ 작성시간">
+          {% if time %}
+            <input class="btn" type="submit" name='timedesc' value="▲ 작성시간">
+          {% else %}
+            <input class="btn" type="submit" name='timeasc' value="▼ 작성시간">
+          {% endif %}
         </form>
       </th>
       <th>
         <form action="{% url 'articles:index' %}">
-          <input class="btn" type="submit" name='view' value="▼ 조회수">
+          {% if view %}
+            <input class="btn" type="submit" name='viewdesc' value="▲ 조회수">
+          {% else %}
+            <input class="btn" type="submit" name='viewasc' value="▼ 조회수">
+          {% endif %}
         </form>
       </th>
       <th class="text-center" scope="col">
         <form action="{% url 'articles:index' %}">
-          <input class="btn" type="submit" name='like' value="▼ 추천수">
+          {% if like %}
+            <input class="btn" type="submit" name='likedesc' value="▲ 추천수">
+          {% else %}
+            <input class="btn" type="submit" name='likeasc' value="▼ 추천수">
+          {% endif %}
         </form>
       </th>
     </tr>

@@ -9,20 +9,32 @@ from django.contrib.auth import get_user_model
 
 # Create your views here.
 def index(request):
-    like = request.GET.get('like')
-    view = request.GET.get('view')
-    time = request.GET.get('time')
-    if like:
+    like = False
+    view = False
+    time = False
+    if request.GET.get('likedesc'):
         articles = Article.objects.annotate(like_count=Count('like_users')).order_by('-like_count')
-    elif view:
+    elif request.GET.get('likeasc'):
+        like = True
+        articles = Article.objects.annotate(like_count=Count('like_users')).order_by('like_count')
+    elif request.GET.get('viewdesc'):
         articles = Article.objects.all().order_by('-views')
-    elif time:
+    elif request.GET.get('viewasc'):
+        view = True
+        articles = Article.objects.all().order_by('views')
+    elif request.GET.get('timedesc'):
         articles = Article.objects.all().order_by('-created_at')
+    elif request.GET.get('timeasc'):
+        time = True
+        articles = Article.objects.all().order_by('created_at')
     else:
         articles = Article.objects.all()
 
     context = {
-        'articles': articles
+        'articles': articles,
+        'like': like,
+        'view': view,
+        'time': time
     }
     return render(request, 'articles/index.html', context)
 

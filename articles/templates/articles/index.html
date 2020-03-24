@@ -27,17 +27,29 @@
       <th scope="col" class="text-center"><span class="btn">작성자</span></th>
       <th>
         <form action="{% url 'articles:index' %}">
-          <input class="btn" type="submit" name='time' value="▼ 작성시간">
+          {% if time %}
+            <input class="btn" type="submit" name='timedesc' value="▲ 작성시간">
+          {% else %}
+            <input class="btn" type="submit" name='timeasc' value="▼ 작성시간">
+          {% endif %}
         </form>
       </th>
       <th>
         <form action="{% url 'articles:index' %}">
-          <input class="btn" type="submit" name='view' value="▼ 조회수">
+          {% if view %}
+            <input class="btn" type="submit" name='viewdesc' value="▲ 조회수">
+          {% else %}
+            <input class="btn" type="submit" name='viewasc' value="▼ 조회수">
+          {% endif %}
         </form>
       </th>
       <th class="text-center" scope="col">
         <form action="{% url 'articles:index' %}">
-          <input class="btn" type="submit" name='like' value="▼ 추천수">
+          {% if like %}
+            <input class="btn" type="submit" name='likedesc' value="▲ 추천수">
+          {% else %}
+            <input class="btn" type="submit" name='likeasc' value="▼ 추천수">
+          {% endif %}
         </form>
       </th>
     </tr>
