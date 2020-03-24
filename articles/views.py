@@ -60,7 +60,7 @@ def detail(request, id):
     return render(request, 'articles/detail.html', context)
 
 def mypage(request, id):
-    user = get_object_or_404(AUTH_USER_MODEL, id=id)
+    user = get_object_or_404(get_user_model(), id=id)
     articles = Article.objects.filter(user=user)
     comments = Comment.objects.filter(user=user)
     context = {
