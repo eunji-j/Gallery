@@ -1,0 +1,1 @@
+web: gunicorn dcinside.wsgi --log-file -

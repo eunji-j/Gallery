@@ -41,4 +41,7 @@
       </tbody>
     </table>
 
+    <div class="text-right my-5">
+      <a href="{% url 'accounts:delete' user.id %}" onclick="return confirm('정말 탈퇴하시겠습니까?');">회원탈퇴</a>
+    </div>
 {% endblock %}
