@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block body %}
+  <h1>글쓰기</h1>
+
+  <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+      <div class="my-2">{{ form.info }} 공지</div>
+      제목 {% bootstrap_field form.title show_label=False placeholder=False %}
+      내용 {% bootstrap_field form.content show_label=False placeholder=False %}
+      이미지 {% bootstrap_field form.image show_label=False placeholder=False %}
+      <div class="text-right">
+        <input class="btn btn-primary" type="submit"> 
+      </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block body %}
+
+  <h4 class="mb-4">제목 검색결과</h4>
+  <div class="mx-3">
+    {% for article in articles %}
+      <h5><a href="{% url 'articles:detail' article.id %}">{{article.title}}</a></h5>
+      {{article.user}} &nbsp;|&nbsp; {{article.created_at|date:'y.m.d H:m:s'}}
+    {% endfor %}
+  </div>
+
+  <hr class="my-5">
+  <h4 class="mb-4">내용 검색결과</h4>
+  <div class="mx-3">
+    {% for article in articles2 %}
+      <h5><a href="{% url 'articles:detail' article.id %}">{{article.title}}</a></h5>
+      {{article.user}} &nbsp;|&nbsp; {{article.created_at|date:'y.m.d H:m:s'}}
+    {% endfor %}
+  </div>
+{% endblock %}

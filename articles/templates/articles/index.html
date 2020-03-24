@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+  
+<!-- 광고배너공간 -->
+<!-- {% block aside %}
+  <aside class="m-5">
+    <img style="width:300px; height:400px;" src="" alt="">
+  </aside>
+{% endblock %} -->
+
+{% block body %}
+<div class="d-flex justify-content-between">
+  <div>
+    <h3 id="name" style="color:#4a57a8;">기본 갤러리</h3>
+    <!-- <h3 class="btn btn-outline-secondary">공지</h3> -->
+  </div>
+  {% if user.is_authenticated %}
+    <h3><a class="btn btn-outline-secondary" href="{% url 'articles:create' %}"><i class="fas fa-pencil-alt" style="color: #4a57a8;"></i></a></h3>
+  {% endif %}
+</div>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col" class="text-center"><span class="btn">번호</span></th>
+      <th></th>
+      <th scope="col" class="text-center"><span class="btn">제목</span></th>
+      <th scope="col" class="text-center"><span class="btn">작성자</span></th>
+      <th>
+        <form action="{% url 'articles:index' %}">
+          <input class="btn" type="submit" name='time' value="▼ 작성시간">
+        </form>
+      </th>
+      <th>
+        <form action="{% url 'articles:index' %}">
+          <input class="btn" type="submit" name='view' value="▼ 조회수">
+        </form>
+      </th>
+      <th class="text-center" scope="col">
+        <form action="{% url 'articles:index' %}">
+          <input class="btn" type="submit" name='like' value="▼ 추천수">
+        </form>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for article in articles %}
+      {% if article.info %}
+        <tr>
+          <td class="text-center" width="7%">공지</td>
+          <td width="3%"><i class="fas fa-info-circle" style="color:#82EB5A;"></i></td>
+          <td width="40%"><a href="{% url 'articles:detail' article.pk %}">{{article.title}} [{{article.comment_set.count}}]</a></td>
+          <td class="text-center" width="10%">{{article.user}}</td>
+          <td class="text-center" width="14%">{{article.created_at|date:'y.m.d H:m:s'}}</td>
+          <td class="text-center" width="8%">{{article.views}}</td>
+          <td class="text-center" width="8%">{{article.like_users.count}}</td>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  </tbody>
+  <tbody>
+    {% for article in articles %}
+      {% if not article.info %}
+        <tr>
+          <td class="text-center" width="7%">{{article.id}}</td>
+          <td>
+            {% if article.image %}
+              <i class="fas fa-images" style="color:#FFDC3C;"></i>
+            {% else %}
+              <i class="fas fa-comment-dots" style="color:#696969;"></i>
+            {% endif %}
+          </td>
+          <td width="40%"><a href="{% url 'articles:detail' article.pk %}">{{article.title}} [{{article.comment_set.count}}]</a></td>
+          <td class="text-center" width="10%" class="text-right">{{article.user}}</td>
+          <td class="text-center" width="14%" class="text-right">{{article.created_at|date:'y.m.d H:m:s'}}</td>
+          <td class="text-center" width="8%">{{article.views}}</td>
+          <td class="text-center" width="8%">{{article.like_users.count}}</td>
+        </tr>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

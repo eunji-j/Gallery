@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block body %}
+
+  <h4>내가 쓴 글</h4>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th class="text-center">글번호</th>
+        <th class="text-center" scope="col">제목</th>
+        <th class="text-center" scope="col" class="text-right">작성시간</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for article in articles %}
+      <tr>
+        <td width="5%" class="text-center">{{article.id}}</td>
+        <td width="20%" class="text-center"><a href="{% url 'articles:detail' article.id %}">{{article.title}}</a></td>
+        <td width="20%" class="text-center">{{article.created_at|date:'y.m.d H:m:s'}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h4 class="mt-5">내가 쓴 댓글</h4>
+  <table class="table table-sm">
+      <thead>
+        <tr>
+          <th class="text-center" >글번호</th>
+          <th class="text-center" scope="col">내용</th>
+          <th class="text-center" scope="col" class="text-right">작성시간</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for comment in comments %}
+        <tr>
+          <td width="5%" class="text-center">{{comment.article.id}}</td>
+          <td class="text-center" width="20%"><a href="{% url 'articles:detail' comment.article.id %}">{{ comment.content }}</a></td>
+          <td class="text-center" width="20%" class="text-right">{{comment.created_at|date:'y.m.d H:m:s'}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+{% endblock %}
