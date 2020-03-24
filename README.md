@@ -1,4 +1,4 @@
-# 191021_Project_Gallery
+# eunji-gallery
 
 #### Django 프레임워크 기반 커뮤니티 게시판 웹 페이지 구현 (Bootstrap4 적용)
 
